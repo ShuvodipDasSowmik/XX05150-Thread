@@ -1,0 +1,46 @@
+name: Update Thread
+
+permissions:
+  contents: write
+
+on:
+  push:
+    paths:
+      - "submissions/**.json"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.x"
+
+      - name: Run Thread Generator
+        run: |
+          python scripts/generate_thread.py
+
+      - name: Debug directory contents
+        run: |
+          echo "=== Repo root ==="
+          ls -R .
+          
+      - name: Run Timeline Generator
+        run: |
+          python scripts/generate_timeline.py
+
+      - name: Commit changes
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add thread.md Timeline.md rollmates.json
+          git commit -m "Update thread, timeline & manifest" || echo "No changes"
+          git push

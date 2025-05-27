@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rollmates Thread</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap">
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --accent-color: #e74c3c;
+      --light-bg: #f5f7fa;
+      --dark-bg: #2c3e50;
+      --text-color: #333;
+      --light-text: #666;
+      --card-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      --border-radius: 8px;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--light-bg);
+      padding: 1.5rem;
+    }
+    
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #ddd;
+    }
+    
+    h1 {
+      color: var(--secondary-color);
+      margin-bottom: 0.5rem;
+      font-size: 2.2rem;
+    }
+    
+    .subtitle {
+      color: var(--light-text);
+      font-size: 1.1rem;
+    }
+    
+    .rollmate-card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--card-shadow);
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    
+    .rollmate-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+    
+    .rollmate-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .rollmate-info h2 {
+      color: var(--primary-color);
+      margin-bottom: 0.25rem;
+      font-size: 1.4rem;
+    }
+    
+    .rollmate-roll {
+      font-weight: 500;
+      color: var(--light-text);
+    }
+    
+    .rollmate-batch {
+      display: inline-block;
+      background: var(--primary-color);
+      color: white;
+      border-radius: 20px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.8rem;
+      font-weight: 500;
+    }
+    
+    .rollmate-contact {
+      margin: 1rem 0;
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    
+    .contact-item {
+      display: flex;
+      align-items: center;
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+    
+    .contact-item svg {
+      margin-right: 0.4rem;
+      height: 16px;
+      width: 16px;
+    }
+    
+    .contact-item a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    .contact-item a:hover {
+      text-decoration: underline;
+    }
+    
+    .rollmate-message {
+      white-space: pre-wrap;
+      line-height: 1.6;
+      color: var(--text-color);
+      background: var(--light-bg);
+      padding: 1rem;
+      border-radius: 6px;
+      border-left: 4px solid var(--primary-color);
+    }
+    
+    .loading, .error {
+      text-align: center;
+      padding: 2rem;
+      color: var(--light-text);
+    }
+    
+    .error {
+      color: var(--accent-color);
+    }
+    
+    footer {
+      margin-top: 3rem;
+      text-align: center;
+      color: var(--light-text);
+      font-size: 0.9rem;
+      padding: 1rem;
+      border-top: 1px solid #ddd;
+    }
+    
+    footer a {
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+    
+    @media (max-width: 600px) {
+      .rollmate-header {
+        flex-direction: column;
+      }
+      
+      .rollmate-batch {
+        margin-top: 0.5rem;
+      }
+      
+      .rollmate-card {
+        padding: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>XX05150 Thread</h1>
+      <p class="subtitle">Connect with your Rollmates</p>
+    </header>
+    <main id="thread" class="loading">
+      Loading rollmates...
+    </main>
+    <footer>
+      To add your submission, create a JSON file in the submissions folder.
+      <br>
+      <a href="https://github.com/ShuvodipDasSowmik/XX05150-Thread" target="_blank">View on GitHub</a>
+    </footer>
+  </div>
+
+  <script>
+    // SVG icons for contact info
+    const ICONS = {
+      email: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>',
+      facebook: '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path></svg>'
+    };
+
+    // Function to get the base URL for GitHub Pages or local
+    function getBasePath() {
+      const repoPath = location.pathname.split('/')[1] || '';
+      return repoPath ? `/${repoPath}` : '';
+    }
+    
+    // Function to load all submissions
+    async function loadSubmissions() {
+      try {
+        // Load from the compiled rollmates.json (generated by Python script)
+        const response = await fetch(`${getBasePath()}/rollmates.json`);
+        
+        if (response.ok) {
+          return await response.json();
+        }
+        
+        throw new Error("Could not load rollmates.json");
+      } catch (err) {
+        console.error("Error loading submissions:", err);
+        throw err;
+      }
+    }
+    
+    // Create an email link with protection
+    function createEmailLink(email) {
+      if (!email) return '';
+      return `<div class="contact-item">
+        ${ICONS.email}
+        <a href="mailto:${email}" rel="noopener">${email}</a>
+      </div>`;
+    }
+    
+    // Create a Facebook profile link
+    function createFacebookLink(facebook) {
+      if (!facebook) return '';
+      // Extract username or use full URL
+      const displayText = facebook.split('/').pop() || facebook;
+      return `<div class="contact-item">
+        ${ICONS.facebook}
+        <a href="${facebook}" target="_blank" rel="noopener">${displayText}</a>
+      </div>`;
+    }
+    
+    // Load and display the submissions
+    loadSubmissions()
+      .then(data => {
+        const container = document.getElementById('thread');
+        container.classList.remove('loading');
+        container.innerHTML = '';  // clear loading text
+        
+        if (!data || data.length === 0) {
+          container.innerHTML = '<div class="error">No submissions found.</div>';
+          return;
+        }
+        
+        data.forEach(e => {
+          // Create contact section if either email or facebook exists
+          const contactSection = (e.email || e.facebook) ? 
+            `<div class="rollmate-contact">
+              ${createEmailLink(e.email)}
+              ${createFacebookLink(e.facebook)}
+            </div>` : '';
+          
+          const card = document.createElement('section');
+          card.className = 'rollmate-card';
+          card.innerHTML = `
+            <div class="rollmate-header">
+              <div class="rollmate-info">
+                <h2>${e.name}</h2>
+                <div class="rollmate-roll">${e.roll}</div>
+              </div>
+              <div class="rollmate-batch">Batch ${e.batch || 'Unknown'}</div>
+            </div>
+            ${contactSection}
+            <div class="rollmate-message">${e.message}</div>
+          `;
+          container.appendChild(card);
+        });
+      })
+      .catch(err => {
+        const container = document.getElementById('thread');
+        container.classList.remove('loading');
+        container.classList.add('error');
+        container.innerHTML = `<div class="error">😞 Failed to load thread. Error: ${err.message}</div>`;
+        console.error(err);
+      });
+  </script>
+</body>
+</html>
