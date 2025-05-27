@@ -33,17 +33,3 @@ Submit your JSON message and be part of this forever thread!
 See the evolution here: [`Timeline.md`](./Timeline.md)
 
 ---
-
-## 🛠 Development
-
-Files are automatically updated via GitHub Actions when new submissions are added.
-
-To generate files locally:
-
-```bash
-# Generate thread files
-python scripts/generate_thread.py
-python scripts/generate_timeline.py
-```
-
-Local testing: Open `index.html` or run `python -m http.server` to serve files.
