@@ -5,8 +5,6 @@ Submit your JSON message and be part of this forever thread!
 
 ➡️ [Live Visual Thread](https://shuvodipdassowmik.github.io/XX05150-Thread/)
 
-![Contributors](https://contrib.rocks/image?repo=shuvodipdassowmik/XX05150-Thread)
-
 ---
 
 ## 🔧 How to Submit
